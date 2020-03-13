@@ -11,8 +11,31 @@
 |
 */
 
+// Trang chủ
 Route::get('/', 'ShopController@index');
+//Liên Hệ
+Route::resource('contact', 'ContactController');
 
-Route::get('/admin', 'AdminController@index');
+// Route Group Admin
+// Gom nhóm route trang admin
+Route::group(['prefix' => 'admin', 'as'=>'admin.'], function() {
+	Route::get('/', 'AdminController@index')->name('dashboad');
 
-Route::get('/quan-tri', 'AdminController@index');
+	Route::resource('category', 'CategoryController')->names([
+		'create' => "category.create",
+		'store' => 'category.store'
+	]);
+
+	Route::resource('product', 'ProductController');
+
+	// QL Banner
+	Route::resource('banner', 'BannerController');
+
+	//QL Nhà cung cấp
+	Route::resource('vendor', 'VendorController');
+
+	//QL Thương hiệu
+	Route::resource('brand', 'BrandController');
+});
+
+
