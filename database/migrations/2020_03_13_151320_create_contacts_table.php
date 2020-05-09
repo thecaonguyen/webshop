@@ -18,7 +18,7 @@ class CreateContactsTable extends Migration
             $table->string('name')->nullable()->default(null);
             $table->string('email')->nullable()->default(null);
             $table->string('phone')->nullable()->default(null);
-            $table->text('description')->collation('utf8_unicode_ci')->nullable()->default(null); // mô tả chi tiết
+            $table->text('content')->collation('utf8_unicode_ci')->nullable()->default(null); // mô tả chi tiết
             $table->timestamps();
         });
     }

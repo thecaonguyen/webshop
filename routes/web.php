@@ -13,29 +13,30 @@
 
 // Trang chủ
 Route::get('/', 'ShopController@index');
-//Liên Hệ
+
+Route::get('category/{id}', 'ShopController@getProductsByCategory')->name('shop.getProductsByCategory');
+
+Route::get('/{slug}', 'ShopController@getProductsByCategory')->name('shop.category');
+
+// Chi tiet sản phẩn
+Route::get('/{category}/{slug}_{id}', 'ShopController@getProduct')->name('shop.product');
+
+// Liên Hệ
 Route::resource('contact', 'ContactController');
 
-// Route Group Admin
-// Gom nhóm route trang admin
-Route::group(['prefix' => 'admin', 'as'=>'admin.'], function() {
-	Route::get('/', 'AdminController@index')->name('dashboad');
+//Đăng nhập
+Route::get('/admin/login', 'AdminController@getProduct')->name('admin.login');
 
-	Route::resource('category', 'CategoryController')->names([
-		'create' => "category.create",
-		'store' => 'category.store'
-	]);
-
-	Route::resource('product', 'ProductController');
-
-	// QL Banner
-	Route::resource('banner', 'BannerController');
-
-	//QL Nhà cung cấp
-	Route::resource('vendor', 'VendorController');
-
-	//QL Thương hiệu
-	Route::resource('brand', 'BrandController');
+Route::group(['prefix' => 'admin','as' => 'admin.'], function(){
+    Route::get('/', 'AdminController@index')->name('dashboard');
+    Route::resource('category', 'CategoryController');
+    Route::resource('product', 'ProductController');
+    // QL Banner
+    Route::resource('banner', 'BannerController');
+    // QL Thương Hiệu
+    Route::resource('brand', 'BrandController');
+    // QL Nhà Cung Cấp
+    Route::resource('vendor', 'VendorController');
+    // Ql Người dùng
+    Route::resource('user', 'UserController');
 });
-
-

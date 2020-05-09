@@ -2,7 +2,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Danh Sách Sản Phẩm <a href="{{route('admin.product.create')}}" class="btn btn-info pull-right"><i class="fa fa-plus"></i> Thêm SP</a>
+            Danh Sách Người Dùng <a href="{{route('admin.user.create')}}" class="btn btn-info pull-right"><i class="fa fa-plus"></i> Thêm User</a>
         </h1>
     </section>
     <section class="content">
@@ -26,13 +26,10 @@
                         <table class="table table-hover">
                             <tbody>
                             <tr>
-                                <th>Tên SP</th>
+                                <th>Họ & Tên</th>
+                                <th>Email</th>
                                 <th>Hình ảnh</th>
-                                <th>Số lượng</th>
-                                <th>Giá KM</th>
-                                <th>Giá Gốc</th>
-                                <th>Sản phẩm Hot</th>
-                                <th>Vị trí</th>
+                                <th>Phân Quyền</th>
                                 <th>Trạng thái</th>
                                 <th class="text-center">Hành động</th>
                             </tr>
@@ -40,23 +37,20 @@
                             <!-- Lặp một mảng dữ liệu pass sang view để hiển thị -->
                             @foreach($data as $key => $item)
                                 <tr class="item-{{ $item->id }}"> <!-- Thêm Class Cho Dòng -->
-                                    <td>{{ substr($item->name, 0, 50 ) }}...</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->email }}</td>
                                     <td>
-                                    @if ($item->image) <!-- Kiểm tra hình ảnh tồn tại -->
-                                        <img src="{{asset($item->image)}}" width="50" height="50">
+                                    @if ($item->avatar) <!-- Kiểm tra hình ảnh tồn tại -->
+                                        <img src="{{asset($item->avatar)}}" width="70">
                                         @endif
                                     </td>
-                                    <td>{{ $item->stock }}</td>
-                                    <td>{{ $item->sale }}</td>
-                                    <td>{{ $item->price }}</td>
-                                    <td>{{ ($item->is_hot == 1) ? 'Có' : 'Không' }}</td>
-                                    <td>{{ $item->position }}</td>
-                                    <td>{{ ($item->is_active == 1) ? 'Hiển thị' : 'Ẩn' }}</td>
+                                    <td>{{ ($item->role_id == 1) ? 'Manager' : 'Admin' }}</td>
+                                    <td>{{ ($item->is_active == 1) ? 'Kích hoạt' : 'Chưa kích hoạt' }}</td>
                                     <td class="text-center">
-                                        <a href="{{route('admin.product.show', ['id'=> $item->id ])}}" class="btn btn-default">Xem</a>
-                                        <a href="{{route('admin.product.edit', ['id'=> $item->id])}}" class="btn btn-info">Sửa</a>
+                                        <a href="{{route('admin.user.show', ['id'=> $item->id ])}}" class="btn btn-default">Xem</a>
+                                        <a href="{{route('admin.user.edit', ['id'=> $item->id])}}" class="btn btn-info">Sửa</a>
                                         <!-- Thêm sự kiện onlick cho nút xóa -->
-                                        <a href="javascript:void(0)" class="btn btn-danger" onclick="destroyProduct({{ $item->id }})" >Xóa</a>
+                                        <a href="javascript:void(0)" class="btn btn-danger" onclick="destroyUser({{ $item->id }})" >Xóa</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -65,7 +59,6 @@
                     <!-- /.box-body -->
                 </div>
                 <!-- /.box -->
-                {{ $data->links() }} <!-- nút bấm phân trang -->
             </div>
         </div>
         <!-- /.row -->

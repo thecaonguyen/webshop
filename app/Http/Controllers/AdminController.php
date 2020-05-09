@@ -10,4 +10,8 @@ class AdminController extends Controller
     {
     	return view('admin.dashboad');
     }
+    public function admin()
+    {
+    	return view('admin.login');
+    }
 }

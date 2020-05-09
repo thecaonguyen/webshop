@@ -27,11 +27,11 @@
                             </tr>
                             <tr>
                                 <td><b>Sơ lược:</b></td>
-                                <td>{{ $data->summary }}</td>
+                                <td>{!! $data->summary !!}</td>
                             </tr>
                             <tr>
                                 <td><b>Mô tả:</b></td>
-                                <td>{{ $data->description }}</td>
+                                <td>{!! $data->description !!}</td>
                             </tr>
                             <tr>
                                 <td><b>Gía gốc:</b></td>
