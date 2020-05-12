@@ -1,33 +1,27 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 // Trang chủ
 Route::get('/', 'ShopController@index');
-
+// the loai
 Route::get('category/{id}', 'ShopController@getProductsByCategory')->name('shop.getProductsByCategory');
-
-Route::get('/{slug}', 'ShopController@getProductsByCategory')->name('shop.category');
 
 // Chi tiet sản phẩn
 Route::get('/{category}/{slug}_{id}', 'ShopController@getProduct')->name('shop.product');
 
+Route::get('/tim-kiem', 'ShopController@search')->name('shop.search');
+
 // Liên Hệ
 Route::resource('contact', 'ContactController');
 
-//Đăng nhập
-Route::get('/admin/login', 'AdminController@getProduct')->name('admin.login');
+// Đăng nhập
+Route::get('/admin/login', 'AdminController@login')->name('admin.login');
+// Đăng xuất
+Route::get('/admin/logout', 'AdminController@logout')->name('admin.logout');
 
-Route::group(['prefix' => 'admin','as' => 'admin.'], function(){
+Route::post('/admin/postLogin', 'AdminController@postLogin')->name('admin.postLogin');
+
+Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'checkLogin'], function() {
+
     Route::get('/', 'AdminController@index')->name('dashboard');
     Route::resource('category', 'CategoryController');
     Route::resource('product', 'ProductController');
@@ -40,3 +34,7 @@ Route::group(['prefix' => 'admin','as' => 'admin.'], function(){
     // Ql Người dùng
     Route::resource('user', 'UserController');
 });
+
+Auth::routes();
+
+Route::get('/danh-muc/{slug}', 'ShopController@getProductsByCategory')->name('shop.category');
